@@ -1,4 +1,4 @@
-#Maestro
+# Maestro
 
 Maestro는 전자피아노기기에 라즈베리파이(이하 rasp)를 부착하여 사용자로 하여금
 
