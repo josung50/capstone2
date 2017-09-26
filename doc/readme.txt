@@ -1,1 +1,1 @@
-git 가이드라인 : https://docs.google.com/document/d/1ZDvZj-o5KGtN3WM6NPTiA5F5bRilbcWIg0_-PcJYqTo/edit
+
