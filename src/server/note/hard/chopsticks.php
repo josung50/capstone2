@@ -35,7 +35,7 @@
 
             var imageArray = new Array();
             for(var i = 0; i < theNumberOfSheet; i++)
-                imageArray[i] = "../../sheet/LOVERBATTERY_" + parseInt(i + 1) + ".png";
+                imageArray[i] = "../../sheet/CHOPSTICKS_" + parseInt(i + 1) + ".png";
 			
 			var imageIndex = 0;
 			
@@ -49,7 +49,7 @@
 			var refreshIntervalId = setInterval(ChangeImage, 11300);	// 한 줄에 8.4초
 
 		</script>
-        
+
 		<meta http-equiv='refresh' content='26;url=http://35.161.154.86/score/score_load.php'>
 
 	</body>

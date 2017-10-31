@@ -36,7 +36,7 @@
 
             var imageArray = new Array();
             for(var i = 0; i < theNumberOfSheet; i++)
-                imageArray[i] = "../../sheet/LOVERBATTERY_" + parseInt(i + 1) + ".png";
+                imageArray[i] = "../../sheet/PIRATE_" + parseInt(i + 1) + ".png";
 			var imageIndex=0;
 			
 			function changeImage() {
