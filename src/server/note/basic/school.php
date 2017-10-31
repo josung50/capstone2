@@ -26,7 +26,7 @@
 	
 	<body>
         <br/><br/>
-		<img src="../note_images/SCHOOL_1.png">
+		<img src="../../sheet/SCHOOL_1.png">
 
         <script>
             // slide-show

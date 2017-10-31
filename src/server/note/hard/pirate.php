@@ -27,7 +27,7 @@
 	<body>
 		<!--a href="../basic.php">again select song</a-->
 					
-		<img src="../note_images/PIRATE_1.png" id="mainImage">
+		<img src="../../sheet/PIRATE_1.png" id="mainImage">
 		
 		<script>
 			// slide-show

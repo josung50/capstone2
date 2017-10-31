@@ -24,7 +24,7 @@
 	
 	<body>
 		<br/><br/>
-		<img src="../note_images/ELISE_1.png" id="mainImage">
+		<img src="../../sheet/ELISE_1.png" id="mainImage">
 		
 		<script>
 			// slide-show

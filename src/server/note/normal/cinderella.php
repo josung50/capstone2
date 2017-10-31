@@ -26,7 +26,7 @@
 	
 	<body>
 		<br/><br/>
-		<img src="../note_images/CINDERELLA_1.png" id="mainImage">
+		<img src="../../sheet/CINDERELLA_1.png" id="mainImage">
 		
 		<script>
 			// slide-show

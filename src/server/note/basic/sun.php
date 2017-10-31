@@ -25,7 +25,7 @@
     </head>
 	
 	<body>		
-		<img src="../note_images/SUN_1.png" id="mainImage">
+		<img src="../../sheet/SUN_1.png" id="mainImage">
 		
 		<script>
 			// slide-show

@@ -26,7 +26,7 @@
 	
 	<body>
         <br/><br/>
-        <img src="../note_images/TOTORO_1.png" id="mainImage">
+        <img src="../../sheet/TOTORO_1.png" id="mainImage">
 		
 		<script>
 			// slide-show
