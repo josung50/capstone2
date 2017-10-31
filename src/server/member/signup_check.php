@@ -1,19 +1,19 @@
 <?php
-require_once '../preset.php';
+    require_once '../preset.php';
 ?>
 <?php
 
-$encryped_pass = sha1($user_pass);
+    $encryped_pass = sha1($user_pass);
 
-$q = "INSERT INTO ACCOUNT ( id, pw, name, gender ) VALUES ( '$user_id', '$encryped_pass', '$user_name', '$user_gender' )";
+    $q = "INSERT INTO ACCOUNT ( id, pw, name, gender ) VALUES ( '$user_id', '$encryped_pass', '$user_name', '$user_gender' )";
 
-$mysqli->query( $q);
+    $mysqli->query( $q);
 
-$mysqli->close($mysqli);
+    $mysqli->close($mysqli);
 
 
-header('Location: '.$url['root'].'member/signup_done.php');
+    header('Location: '.$url['root'].'member/signup_done.php');
 
-exit();
+    exit();
 
 ?>

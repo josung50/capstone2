@@ -1,6 +1,6 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'].'/preset.php';
-include $_SERVER['DOCUMENT_ROOT'].'/header.php';
+    require_once $_SERVER['DOCUMENT_ROOT'].'/preset.php';
+    include $_SERVER['DOCUMENT_ROOT'].'/header.php';
 ?>
        
 	<a href="http://35.161.154.86"><img src='../image/home.png'></a>

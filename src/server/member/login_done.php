@@ -3,13 +3,11 @@ require_once '../preset.php';
 include '../header.php';
 
 $is_logged = $_SESSION['is_logged'];
-if($is_logged=='YES') {
+if($is_logged=='YES')
     $user_id = $_SESSION['user_id'];
     //$message = $user_id . ' 님, 로그인 했습니다.';
-}
-else {
+else
     $message = '로그인이 실패했습니다.';
-}
 ?>
 <html>
 	<head>
@@ -31,11 +29,11 @@ else {
 	</head>
 	<body>
 		<div id="menu">
-		<table width="100%">
-        <tr class="textcenter">
-        	<td><a href="../note/select_mode.php"><img src="../image/play.png"/></a></td>
-        	<td><a href="../score/score_board.php"><img src="../image/rank.png"/></a></td>
-        </tr>
+            <table width="100%">
+            <tr class="textcenter">
+                <td><a href="../note/select_mode.php"><img src="../image/play.png"/></a></td>
+                <td><a href="../score/score_board.php"><img src="../image/rank.png"/></a></td>
+            </tr>
 		</table>
 		</div>
 	</body>
@@ -45,6 +43,7 @@ else {
 <?php
     echo $message;
 ?>
+
 <?php
     include '../footer.php';
 ?>
