@@ -1,34 +1,13 @@
 <?php
+include_once ("../loadSheetFunction.php");
+?>
+
+<?php
 session_start();
 $_SESSION['play_song'] = 'LOVERBATTERY';
 ?>
 
-<?php
-function CheckSheetExist($fileName) {
-    chdir('../../sheet/sheetimg');
-    //if(file_exists(_SESSION["play_song"]+ '_1.png'))
-    if(file_exists($fileName))
-        return true;
-    else
-        return false;
-}
 
-function CreateSheet() {
-    chdir('../../sheet');
-    //echo getcwd();
-    $commend = "mono sheet.exe songs/" . $_SESSION['play_song'] . ".mid" . " " . $_SESSION['play_song'];
-    //echo $commend;
-    exec($commend);
-}
-
-function SheetCount() {
-    $index = 1;
-    while(file_exists($_SESSION['play_song']. "_" . $index . ".png")) {
-        $index++;
-    }
-    return $index - 1;
-}
-?>
 
 <?php
     // 현재 경로 -> php파일이 있는 경로
@@ -36,7 +15,7 @@ function SheetCount() {
     chdir('../../sheet');
     //exec("mono sheet.exe songs/LOVERBATTERY.mid testmid", $output, $error);
     if(!CheckSheetExist($_SESSION['play_song'])) {
-        CreateSheet();
+        CreateSheet($_SESSION['play_song']);
     }
     //echo SheetCount(); 결과 : 5 , 실제 악보수는 4
 ?>
@@ -57,7 +36,7 @@ function SheetCount() {
 <script>
     // slide-show
     var myImage=document.getElementById("mainImage");
-    var theNumberOfSheet =  <?=SheetCount()?>;
+    var theNumberOfSheet =  <?=SheetCount($_SESSION['play_song'])?>;
 
     var imageArray = new Array();
     for(var i=0; i<theNumberOfSheet; i++)
