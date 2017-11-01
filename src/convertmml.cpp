@@ -6,65 +6,62 @@
 
 using namespace std;
 
-int defatultPinaoNumber(int);// µğÆúÆ® ¿ÁÅ¸ºê  °Ç¹İ¹øÈ£ ÁöÁ¤ÇÏ´Â ÇÔ¼ö
-int octavePianoNumber(int , int ); // ¿ÁÅ¸ºê°¡ ¹Ù²ğ ¶§ °Ç¹İ ¹øÈ£ ÁöÁ¤ÇÏ´Â ÇÔ¼ö
-void highStoreRecord(char[]); //ÇÏ³ªÇÏ³ª ÀúÀåÇÑ ¹è¿­À» ÀÔ·Â¹Ş¾Æ µğºñÇü½ÄÀ¸·Î ÀúÀåÇÏ´Â ÇÔ¼ö. - ³ôÀºÀ½ÀÚ¸®Ç¥¿ë
-void lowStoreRecord(char[]); // ³·ÀºÀ½ÀÚ¸®Ç¥¿ë
+int calcDefatultPinaoNumber(char);// ë””í´íŠ¸ ì˜¥íƒ€ë¸Œ  ê±´ë°˜ë²ˆí˜¸ ì§€ì •í•˜ëŠ” í•¨ìˆ˜
+int calcChangeOctave(int , char ); // ì˜¥íƒ€ë¸Œê°€ ë°”ë€” ë•Œ ê±´ë°˜ ë²ˆí˜¸ ì§€ì •í•˜ëŠ” í•¨ìˆ˜
+void highStoreRecord(char[]); //í•˜ë‚˜í•˜ë‚˜ ì €ì¥í•œ ë°°ì—´ì„ ì…ë ¥ë°›ì•„ ë””ë¹„í˜•ì‹ìœ¼ë¡œ ì €ì¥í•˜ëŠ” í•¨ìˆ˜. - ë†’ì€ìŒìë¦¬í‘œìš©
 
 
-float musicRecord[1000][5];//DBÇü½ÄÀ¸·Î ÀúÀåÇÏ±â À§ÇÑ ¹è¿­
+float musicRecord[1000][5];//DBí˜•ì‹ìœ¼ë¡œ ì €ì¥í•˜ê¸° ìœ„í•œ ë°°ì—´
 
 
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]){
+
 	ifstream inStream;
 
 	inStream.open("CHOPSTICKS_mml.txt");
-	if (inStream.fail())
-	{
-		cerr << "mml ÆÄÀÏÀ» ºÒ·¯ ¿ÀÁö ¸øÇß½À´Ï´Ù.\n";
+	if (inStream.fail()){
+		cerr << "mml íŒŒì¼ì„ ë¶ˆëŸ¬ ì˜¤ì§€ ëª»í–ˆìŠµë‹ˆë‹¤.\n";
 		exit(1);
 	}
 
 
 	string track1 = ""; 
-	inStream >> track1; //Ã¹¹øÂ° Æ®·¢(¿À¸¥¼Õ) mml ÀÔ·Â
+	inStream >> track1; //ì²«ë²ˆì§¸ íŠ¸ë™(ì˜¤ë¥¸ì†) mml ì…ë ¥
 
 	string track2 = "";
-	inStream >> track2; //µÎ¹øÂ° Æ®·¢(¿Ş¼Õ) mml ÀÔ·Â
+	inStream >> track2; //ë‘ë²ˆì§¸ íŠ¸ë™(ì™¼ì†) mml ì…ë ¥
 
-	cout << track1 <<endl; //mml stringÀÌ Æ®·¢¿¡ ¸Â°Ô µé¾î°¬³ª È®ÀÎ
+	cout << track1 <<endl; //mml stringì´ íŠ¸ë™ì— ë§ê²Œ ë“¤ì–´ê°”ë‚˜ í™•ì¸
 	cout << track2 <<endl;
 
 
-	char track1Arr[200]; //Ã¹¹øÂ° Æ®·¢ÀÇ ¹®ÀÚ¸¦ ÇÏ³ªÇÏ³ª ÀúÀåÇÒ ¹è¿­
-	char track2Arr[200]; //µÎ¹ø¤Š Æ®·¢ÀÇ ¹®ÀÚ¸¦ ÇÏ³ªÇÏ³ª ÀúÀåÇÒ ¹è¿­
+	char track1Arr[200]; //ì²«ë²ˆì§¸ íŠ¸ë™ì˜ ë¬¸ìë¥¼ í•˜ë‚˜í•˜ë‚˜ ì €ì¥í•  ë°°ì—´
+	char track2Arr[200]; //ë‘ë²ˆÂŠ íŠ¸ë™ì˜ ë¬¸ìë¥¼ í•˜ë‚˜í•˜ë‚˜ ì €ì¥í•  ë°°ì—´
 
-	for(int m =0; m<200; m++)
-	{
-		track1Arr[m] = 'U'; // °¢¹è¿­Àº 'U'·Î ÃÊ±âÈ­
+	for(int m =0; m < 200; m++){
+		track1Arr[m] = 'U'; // ê°ë°°ì—´ì€ 'U'ë¡œ ì´ˆê¸°í™”
 		track2Arr[m] = 'U';
 		
 	}
 	
-	strcpy(track1Arr,track1.c_str()); // ÀÔ·Â¹ŞÀº Æ®·¢À» charÇü ¹è¿­¿¡ ¹®ÀÚ ÇÏ³ªÇÏ³ª¸¦ °¢°¢ ÀúÀå
-	strcpy(track2Arr,track2.c_str());
+	strcpy(track1Arr, track1.c_str()); // ì…ë ¥ë°›ì€ íŠ¸ë™ì„ charí˜• ë°°ì—´ì— ë¬¸ì í•˜ë‚˜í•˜ë‚˜ë¥¼ ê°ê° ì €ì¥
+	strcpy(track2Arr, track2.c_str());
 
-	for(int h = 0; h<strlen(track1Arr); h++) //¸Â°Ô µé¾î°¬´ÂÁö È®ÀÎ
-	{
+	for(int h = 0; h < strlen(track1Arr); h++){
+
 		cout << track1Arr[h]  <<" " <<endl;
 	}
-	for(int h = 0; h<strlen(track2Arr); h++)
-	{
+	for(int h = 0; h < strlen(track2Arr); h++){
+
 		cout << track2Arr[h]  <<" " <<endl;
 	}
 
 
 
-	for(int n = 0; n<1000; n++)
-        {
-                // °¢¹è¿­Àº -1·Î ÃÊ±âÈ­.
+	for(int n = 0; n < 1000; n++){
+
+                // ê°ë°°ì—´ì€ -1ë¡œ ì´ˆê¸°í™”.
                 musicRecord[n][0] = -1;  //order
                 musicRecord[n][1] = -1;  //right_note_time
                 musicRecord[n][2] = -1;  //right_note_tune
@@ -72,37 +69,26 @@ int main(int argc, char *argv[])
                 musicRecord[n][4] = -1;  //left_note_tune
         }
 
-	highStoreRecord(track1Arr); // Æ®·¢1 ³ôÀº À½ÀÚ¸®Ç¥ Æ÷¸ËÀ¸·Î ÀúÀå
-	lowStoreRecord(track2Arr); // Æ®·¢2 ³·Àº À½ÀÚ¸®Ç¥ Æ÷¸ËÀ¸·Î ÀúÀå
+	highStoreRecord(track1Arr); // íŠ¸ë™1 ë†’ì€ ìŒìë¦¬í‘œ í¬ë§·ìœ¼ë¡œ ì €ì¥
+	lowStoreRecord(track2Arr); // íŠ¸ë™2 ë‚®ì€ ìŒìë¦¬í‘œ í¬ë§·ìœ¼ë¡œ ì €ì¥
 
-	//DB¿¡ µé¾î°¡°Ô µÉ ¹è¿­ È®ÀÎ
+	//DBì— ë“¤ì–´ê°€ê²Œ ë  ë°°ì—´ í™•ì¸
 	
 	/*
-	for(int i = 0; i<strlen(track1Arr); i++)
-	{
+	for(int i = 0; i < strlen(track1Arr); i++){
 		cout << "  note_order : "      <<musicRecord[i][0]<< 
-				"  right_note_time :  "<<musicRecord[i][1]<<
-				"  right_note_tune1 : "<<musicRecord[i][2]<<
-				"  right_note_tune2 : "<<musicRecord[i][3]<<
-				"  right_note_tune3 : "<<musicRecord[i][4]<<
-				"  right_note_tune4 : "<<musicRecord[i][5]<<
-				"  left_note_time   : "<<musicRecord[i][6]<<
-				"  left_note_tune1  : "<<musicRecord[i][7]<<
-				"  left_note_tune2  : "<<musicRecord[i][8]<<
-				"  left_note_tune3  : "<<musicRecord[i][9]<<
-				"  left_note_tune4  : "<<musicRecord[i][10]<<endl;
+				" note_time_right :  "<<musicRecord[i][1]<<
+				"  note_tune_right : "<<musicRecord[i][2]<<
+				"  note_time_left   : "<<musicRecord[i][3]<<
+				"  note_tune_left  : "<<musicRecord[i][4]<< endl;
 	}
 	*/
 
-	for(int i = 0; i<strlen(track1Arr); i++)
-        {
-                cout << " note_order : "<<  musicRecord[i][0]  << "  note_right_time : "<< musicRecord[i][1] << "  note_right_tune : "<<musicRecord[i][2]<<
-                        " note_left_time : "<<musicRecord[i][3]<<" note_left_tune : "<<musicRecord[i][4]<<endl;
-        }
+
 
 	inStream.close();
 
-	//MySQL ¿¬µ¿
+	//MySQL ì—°ë™
 
         MYSQL *conn_ptr;
         MYSQL_RES *sql_result;
@@ -111,8 +97,8 @@ int main(int argc, char *argv[])
 
         conn_ptr = mysql_init(NULL);
 
-        if(!conn_ptr)
-        {
+        if(!conn_ptr){
+
                 fprintf(stderr, "mysql_init failed\n");
                 return -1;
         }
@@ -130,10 +116,11 @@ int main(int argc, char *argv[])
 
         int len = sizeof(musicRecord) / sizeof(musicRecord[0]);
         char insertbuffer[256];
-        for(int i =0; i< len; i++)
-        {
-        if(musicRecord[i][0] != -1)
-        {
+
+        for(int i =0; i < len; i++){
+
+        if(musicRecord[i][0] != -1){
+
                 sprintf(insertbuffer,"INSERT INTO %s(note_order, note_time_right, note_tune_right, note_time_left, note_tune_left) VALUES(%f,%f,%f,%f,%f)",argv[2],musicRecord[i][0],musicRecord[i][1],musicRecord[i][2],musicRecord[i][3],musicRecord[i][4]);
         
 		mysql_query(conn_ptr,insertbuffer);
@@ -150,179 +137,178 @@ int main(int argc, char *argv[])
 
 
 
-int defaultPianoNumber(int alphabet) // µğÆúÆ®¿ÁÅ¸ºê(4) ÀÏ¶§ C,D,E,F,G,H,A,B,C¿¡ ÇØ´çÇÏ´Â ÇÇ¾Æ³ë°Ç¹İ
-{
-	//¾ËÆÄºªÀ» ¾Æ½ºÅ°ÄÚµå·Î
+int calcDefaultPianoNumber(char alphabet){ // ë””í´íŠ¸ì˜¥íƒ€ë¸Œ(3) ì¼ë•Œ C,D,E,F,G,H,A,B,Cì— í•´ë‹¹í•˜ëŠ” í”¼ì•„ë…¸ê±´ë°˜
+
 		int pianoNumber = 0;
 
-		if(alphabet == 67) // C µµ
-		{
-			pianoNumber = 13;
+		if(alphabet == 'C') { // C ë„
+		
+			pianoNumber = 1;
 		}
-		else if(alphabet == 68)// D ·¹
-		{
-			pianoNumber = 15;
+		else if(alphabet == 'D') {// D ë ˆ
+		
+			pianoNumber = 3;
 		}
-		else if(alphabet == 69)// E ¹Ì
-		{
-			pianoNumber = 17;
+		else if(alphabet == 'E') {// E ë¯¸
+		
+			pianoNumber = 5;
 		}
-		else if(alphabet == 70)// F ÆÄ
-		{
-			pianoNumber = 18;
+		else if(alphabet == 'F') {// F íŒŒ
+		
+			pianoNumber = 6;
 		}
-		else if(alphabet == 71)// G ¼Ö
-		{
-			pianoNumber = 20;
+		else if(alphabet == 'G') {// G ì†”
+		
+			pianoNumber = 8;
 		}
-		else if(alphabet == 65)// A ¶ó
-		{
-			pianoNumber = 22;
+		else if(alphabet == 'A') {// A ë¼
+		
+			pianoNumber = 10;
 		}
-		else if(alphabet == 66 )// B ½Ã
-		{
-			pianoNumber = 24;
+		else if(alphabet == 'B' ) {// B ì‹œ
+		
+			pianoNumber = 12;
 		}
 
 		return pianoNumber;
 }
 	
 
-int octavePianoNumber(int currentOctave, int alphabet) // ¾ËÆÄºªÀ» ÀĞ°í ¿ÁÅ¸ºê °ª¿¡ ¸Â´Â °Ç¹İ ¹øÈ£¸¦ ¸®ÅÏÇÏ´Â ÇÔ¼ö
-{
+int calcChangeOctave(int currentOctave, char alphabet){ // ì•ŒíŒŒë²³ì„ ì½ê³  ì˜¥íƒ€ë¸Œ ê°’ì— ë§ëŠ” ê±´ë°˜ ë²ˆí˜¸ë¥¼ ë¦¬í„´í•˜ëŠ” í•¨ìˆ˜ , ë””í´íŠ¸ì˜¥íƒ€ë¸Œë¥¼ 3ìœ¼ë¡œ ê²°ì •
+
 	int pianoNumber2 = 0;
 	
-	if(currentOctave == 3) // ¿ÁÅ¸ºê°¡ 3 ÀÏ‹š
-	{
-		pianoNumber2 = defaultPianoNumber(alphabet) - (12*1);
+	if(currentOctave == 3) { // ì˜¥íƒ€ë¸Œê°€ 3 ì¼Â‹Âš ë•Œ ,  ë””í´íŠ¸ëŠ” ê·¸ëŒ€ë¡œ ë””í´íŠ¸ í”¼ì•„ë…¸ê±´ë°˜ì„ ë”°ë¼ê°€ê³  í•œì˜¥íƒ€ë¸Œì˜ ê±´ë°˜ìˆ«ìëŠ” 12ì°¨ì´.
+	
+		pianoNumber2 = calcDefaultPianoNumber(alphabet);
 	}
-	else if(currentOctave == 4 ) // ¿ÁÅ¸ºê 4 ÀÏ ¶§
-	{
-		pianoNumber2 = defaultPianoNumber(alphabet); // µğÆúÆ®´Â ±×´ë·Î µğÆúÆ® ÇÇ¾Æ³ë°Ç¹İÀ» µû¶ó°¡°í ÇÑ¿ÁÅ¸ºêÀÇ °Ç¹İ¼ıÀÚ´Â 12Â÷ÀÌ.
+	else if(currentOctave == 4 ) { // ì˜¥íƒ€ë¸Œ 4 ì¼ ë•Œ
+	
+		pianoNumber2 = calcDefaultPianoNumber(alphabet) + (12*1); 
 	}
-	else if(currentOctave == 5) // ¿ÁÅ¸ºê 5 ÀÏ ¶§
-	{
-		pianoNumber2 = defaultPianoNumber(alphabet) + (12*1);
+	else if(currentOctave == 5) {// ì˜¥íƒ€ë¸Œ 5 ì¼ ë•Œ
+	
+		pianoNumber2 = calcDefaultPianoNumber(alphabet) + (12*2);
 	}
-	else if(currentOctave == 6) // ¿ÁÅ¸ºê 6 ÀÏ ¶§
-	{
-		pianoNumber2 = defaultPianoNumber(alphabet) + (12*2);
+	else if(currentOctave == 6) { // ì˜¥íƒ€ë¸Œ 6 ì¼ ë•Œ
+	
+		pianoNumber2 = calcDefaultPianoNumber(alphabet) + (12*3);
 	}
-	else if(currentOctave == 7) // ¿ÁÅ¸ºê 7 ÀÏ ¶§
-	{
-		pianoNumber2 = defaultPianoNumber(alphabet) + (12*3);
+	else if(currentOctave == 7) { // ì˜¥íƒ€ë¸Œ 7 ì¼ ë•Œ
+	
+		pianoNumber2 = calcDefaultPianoNumber(alphabet) + (12*4);
 	}
 
 	return pianoNumber2;
 }
 
-void highStoreRecord(char trackArr[])
-{
-	int order = 0; // À½Ç¥ ¼ø¼­ ÃÊ±â°ªÀº 0
-	int indexMusicRecord = 0; // musicRecord¹è¿­À» Å½»öÇÏ±â À§ÇÑ ÀÎµ¦½º
+void highStoreRecord(char trackArr[]){
 
-	char currentTimeChar = '4'; // ¹ÚÀÚ, µğÆúÆ®´Â 4 
+	int order = 0; // ìŒí‘œ ìˆœì„œ ì´ˆê¸°ê°’ì€ 0
+	int indexMusicRecord = 0; // musicRecordë°°ì—´ì„ íƒìƒ‰í•˜ê¸° ìœ„í•œ ì¸ë±ìŠ¤
+
+	char currentTimeChar = '4'; // ë°•ì, ë””í´íŠ¸ëŠ” 4 
 	int currentTimeInt = 4;
 
-	char currentOctaveChar ='4'; // ¿ÁÅ¸ºê , µğÆúÆ®´Â 4
+	char currentOctaveChar ='4'; // ì˜¥íƒ€ë¸Œ , ë””í´íŠ¸ëŠ” 4
 	int currentOctaveInt = 4; 
 
-	//track1ArrÀÇ ¹®ÀÚ¸¦ º¸°í musicRecord¿¡ ÀúÀå.
-	for(int j = 0; j<strlen(trackArr); j++)
-	{
-		//cout<< "j °ª : "<< j <<endl;
-		if(trackArr[j] == 'T') // ÅÛÆ÷ Ã¶ÀÚ 'T'¸¦ ¸¸³ª¸é ±×´ÙÀ½ ¹è¿­ÀÇ ÀÎµ¦½º°ª 3°³´Â ÅÛÆ÷ °ª ,ÅÛÆ÷´Â ÇÊ¿äÇÏÁö ¾ÊÀ¸¹Ç·Î µû·Î ÀúÀåÇÏÁö ¾ÊÀ½
-		{
+	//track1Arrì˜ ë¬¸ìë¥¼ ë³´ê³  musicRecordì— ì €ì¥.
+	for(int j = 0; j<strlen(trackArr); j++){
+	
+		//cout<< "j ê°’ : "<< j <<endl;
+		if(trackArr[j] == 'T'){ // í…œí¬ ì² ì 'T'ë¥¼ ë§Œë‚˜ë©´ ê·¸ë‹¤ìŒ ë°°ì—´ì˜ ì¸ë±ìŠ¤ê°’ 3ê°œëŠ” í…œí¬ ê°’ ,í…œí¬ëŠ” í•„ìš”í•˜ì§€ ì•Šìœ¼ë¯€ë¡œ ë”°ë¡œ ì €ì¥í•˜ì§€ ì•ŠìŒ
+		
 			cout << "find T : "<<  trackArr[j+1]<<trackArr[j+2]<<trackArr[j+3]  <<endl;
 			
 		}
 
-		else if(trackArr[j] == 'L') // ¹ÚÀÚ Ã¶ÀÚ 'L'À» ¸¸³ª¸é ±×´ÙÀ½ ¹è¿­ÀÇ ÀÎµ¦½º°ªÀº ¹ÚÀÚ °ª¿¡ ÀúÀå.
-		{
+		else if(trackArr[j] == 'L'){ // ë°•ì ì² ì 'L'ì„ ë§Œë‚˜ë©´ ê·¸ë‹¤ìŒ ë°°ì—´ì˜ ì¸ë±ìŠ¤ê°’ì€ ë°•ì ê°’ì— ì €ì¥.
+		
 			cout << "find L : "<< trackArr[j+1] <<endl;
 			currentTimeChar = trackArr[j+1];
 			
 		}
-		else if(trackArr[j] == 'O') // ¿ÁÅ¸ºê Ã¶ÀÚ 'O'¸¦ ¸¸³ª¸é ±×´ÙÀ½ ¹è¿­ÀÇ ÀÎµ¦½º°ªÀº ¿ÁÅ¸ºê °ª¿¡ ÀúÀå.
-		{
+		else if(trackArr[j] == 'O'){ // ì˜¥íƒ€ë¸Œ ì² ì 'O'ë¥¼ ë§Œë‚˜ë©´ ê·¸ë‹¤ìŒ ë°°ì—´ì˜ ì¸ë±ìŠ¤ê°’ì€ ì˜¥íƒ€ë¸Œ ê°’ì— ì €ì¥.
+		
 			cout << "find O : "<<  trackArr[j+1]  <<endl;
 			
 			currentOctaveChar = trackArr[j+1];
 
 			
-			if(currentOctaveChar == '1') //charÀ» DB¿¡ ÀúÀåÇÏ±âÀ§ÇØ int·Î º¯È¯
-			{
+			if(currentOctaveChar == '1'){ //charì„ DBì— ì €ì¥í•˜ê¸°ìœ„í•´ intë¡œ ë³€í™˜
+			
 				currentOctaveInt = 1;
 			}
 				
-			else if(currentOctaveChar == '2')
-			{
+			else if(currentOctaveChar == '2'){
+			
 				currentOctaveInt = 2;
 			}
 				
-			else if(currentOctaveChar == '3')
-			{
+			else if(currentOctaveChar == '3'){
+			
 				currentOctaveInt = 3;
 			}
 				
-			else if(currentOctaveChar == '4')
-			{
+			else if(currentOctaveChar == '4'){
+			
 				currentOctaveInt = 4;
 			}
 
-			else if(currentOctaveChar == '5')
-			{
+			else if(currentOctaveChar == '5'){
+			
 				currentOctaveInt = 5;
 			}
 
-			else if(currentOctaveChar == '6')
-			{
+			else if(currentOctaveChar == '6'){
+			
 				currentOctaveInt = 6;
 			}
 
-			else if(currentOctaveChar == '7')
-			{
+			else if(currentOctaveChar == '7'){
+			
 				currentOctaveInt = 7;
 			}
 
-			else if(currentOctaveChar == '8')
-			{
+			else if(currentOctaveChar == '8'){
+			
 				currentOctaveInt = 8;
 			}
 			
 
 		}
-		else if(trackArr[j] == '<') // '<'¸¦ ¸¸³ª¸é ¿ÁÅ¸ºê -1
-		{
+		else if(trackArr[j] == '<') {// '<'ë¥¼ ë§Œë‚˜ë©´ ì˜¥íƒ€ë¸Œ -1
+		
 			currentOctaveInt = currentOctaveInt -1;
 		}
 
-		else if(trackArr[j] == '>') // '>'¸¦ ¸¸³ª¸é ¿ÁÅ¸ºê +1
-		{
+		else if(trackArr[j] == '>') {// '>'ë¥¼ ë§Œë‚˜ë©´ ì˜¥íƒ€ë¸Œ +1
+		
 			currentOctaveInt = currentOctaveInt +1;
 		}
-		else if(trackArr[j] == 'C' || trackArr[j] == 'D' || trackArr[j] == 'E' || trackArr[j] == 'F' || trackArr[j] == 'G' || trackArr[j] == 'A' || trackArr[j] == 'B')  // ±×¿Ü C,D,E,F,G,A,B °ªµé
+		else if(trackArr[j] == 'C' || trackArr[j] == 'D' || trackArr[j] == 'E' || trackArr[j] == 'F' || trackArr[j] == 'G' || trackArr[j] == 'A' || trackArr[j] == 'B')  // ê·¸ì™¸ C,D,E,F,G,A,B ê°’ë“¤
 		{
 
-			int pianoNum = octavePianoNumber(currentOctaveInt, int(trackArr[j])); //ÇöÀç ¿ÁÅ¸ºê¿¡¸Â´Â ¾ËÆÄºª¿¡ ÇØ´çÇÏ´Â °Ç¹İÀ» ±¸ÇØ pianoNum¿¡ ÀúÀåÇÑ´Ù.
+			int pianoNum = calcChangeOctave(currentOctaveInt, char(trackArr[j])); //í˜„ì¬ ì˜¥íƒ€ë¸Œì—ë§ëŠ” ì•ŒíŒŒë²³ì— í•´ë‹¹í•˜ëŠ” ê±´ë°˜ì„ êµ¬í•´ pianoNumì— ì €ì¥í•œë‹¤.
 
-			if(currentTimeChar == '2') //charÀ» DB¿¡ ÀúÀåÇÏ±âÀ§ÇØ int·Î º¯È¯
-			{
+			if(currentTimeChar == '2') {//charì„ DBì— ì €ì¥í•˜ê¸°ìœ„í•´ intë¡œ ë³€í™˜
+			
 				currentTimeInt = 2;
 			}
 				
-			else if(currentTimeChar == '4')
-			{
+			else if(currentTimeChar == '4') {
+			
 				currentTimeInt = 4;
 			}
 				
-			else if(currentTimeChar == '8')
-			{
+			else if(currentTimeChar == '8') {
+			
 				currentTimeInt = 8;
 			}
 				
-//			else if(currentTimeChar == '16')
-//			{
+//			else if(currentTimeChar == '16') {
+//			
 //				currentTimeInt = 16;
 //			}
 			
@@ -331,151 +317,16 @@ void highStoreRecord(char trackArr[])
 			cout << "pianoNum : " << pianoNum << endl;
 
 
-			musicRecord[indexMusicRecord][0] = order; // À½Ç¥ ¼ø¼­ ÀúÀå
+			musicRecord[indexMusicRecord][0] = order; // ìŒí‘œ ìˆœì„œ ì €ì¥
 			order ++;
-			musicRecord[indexMusicRecord][1] = currentTimeInt; // ÇöÀç ¹ÚÀÚ ÀúÀå
-			musicRecord[indexMusicRecord][2] = pianoNum; // °Ç¹İ ¹øÈ£ ÀúÀå
+			musicRecord[indexMusicRecord][1] = currentTimeInt; // í˜„ì¬ ë°•ì ì €ì¥
+			musicRecord[indexMusicRecord][2] = pianoNum; // ê±´ë°˜ ë²ˆí˜¸ ì €ì¥
 			
 			indexMusicRecord ++;
 
 
-			if(currentTimeInt == 2) //2ºĞÀ½Ç¥¸é index 2°³¾¿ Áõ°¡.
-			{
-			indexMusicRecord ++;
-			}
-		}
-	}
-}
-
-
-void lowStoreRecord(char trackArr[])
-{
-	int order = 0; // À½Ç¥ ¼ø¼­ ÃÊ±â°ªÀº 0
-	int indexMusicRecord = 0; // musicRecord¹è¿­À» Å½»öÇÏ±â À§ÇÑ ÀÎµ¦½º
-
-	char currentTimeChar = '4'; // ¹ÚÀÚ, µğÆúÆ®´Â 4 
-	int currentTimeInt = 4;
-
-	char currentOctaveChar = '4'; // ¿ÁÅ¸ºê , µğÆúÆ®´Â 4
-	int currentOctaveInt = 4;
-
-	//track1ArrÀÇ ¹®ÀÚ¸¦ º¸°í musicRecord¿¡ ÀúÀå.
-	for(int j = 0; j<strlen(trackArr); j++)
-	{
-		//cout<< "j °ª : "<< j <<endl;
-		if(trackArr[j] == 'T') // ÅÛÆ÷ Ã¶ÀÚ 'T'¸¦ ¸¸³ª¸é ±×´ÙÀ½ ¹è¿­ÀÇ ÀÎµ¦½º°ª 3°³´Â ÅÛÆ÷ °ª ,ÅÛÆ÷´Â ÇÊ¿äÇÏÁö ¾ÊÀ¸¹Ç·Î µû·Î ÀúÀåÇÏÁö ¾ÊÀ½
-		{
-			cout << "find T : "<<  trackArr[j+1]<<trackArr[j+2]<<trackArr[j+3]  <<endl;
+			if(currentTimeInt == 2) { //2ë¶„ìŒí‘œë©´ index 2ê°œì”© ì¦ê°€.
 			
-		}
-
-		else if(trackArr[j] == 'L') // ¹ÚÀÚ Ã¶ÀÚ 'L'À» ¸¸³ª¸é ±×´ÙÀ½ ¹è¿­ÀÇ ÀÎµ¦½º°ªÀº ¹ÚÀÚ °ª¿¡ ÀúÀå.
-		{
-			cout << "find L : "<< trackArr[j+1] <<endl;
-			currentTimeChar = trackArr[j+1];
-			
-		}
-		else if(trackArr[j] == 'O') // ¿ÁÅ¸ºê Ã¶ÀÚ 'O'¸¦ ¸¸³ª¸é ±×´ÙÀ½ ¹è¿­ÀÇ ÀÎµ¦½º°ªÀº ¿ÁÅ¸ºê °ª¿¡ ÀúÀå.
-		{
-			cout << "find O : "<<  trackArr[j+1]  <<endl;
-			
-			currentOctaveChar = trackArr[j+1];
-
-			
-			if(currentOctaveChar == '1') //charÀ» DB¿¡ ÀúÀåÇÏ±âÀ§ÇØ int·Î º¯È¯
-			{
-				currentOctaveInt = 1;
-			}
-				
-			else if(currentOctaveChar == '2')
-			{
-				currentOctaveInt = 2;
-			}
-				
-			else if(currentOctaveChar == '3')
-			{
-				currentOctaveInt = 3;
-			}
-				
-			else if(currentOctaveChar == '4')
-			{
-				currentOctaveInt = 4;
-			}
-
-			else if(currentOctaveChar == '5')
-			{
-				currentOctaveInt = 5;
-			}
-
-			else if(currentOctaveChar == '6')
-			{
-				currentOctaveInt = 6;
-			}
-
-			else if(currentOctaveChar == '7')
-			{
-				currentOctaveInt = 7;
-			}
-
-			else if(currentOctaveChar == '8')
-			{
-				currentOctaveInt = 8;
-			}
-			
-
-		}
-		else if(trackArr[j] == '<') // '<'¸¦ ¸¸³ª¸é ¿ÁÅ¸ºê -1
-		{
-			currentOctaveInt = currentOctaveInt -1;
-		}
-
-		else if(trackArr[j] == '>') // '>'¸¦ ¸¸³ª¸é ¿ÁÅ¸ºê +1
-		{
-			currentOctaveInt = currentOctaveInt +1;
-		}
-		else if(trackArr[j] == 'C' || trackArr[j] == 'D' || trackArr[j] == 'E' || trackArr[j] == 'F' || trackArr[j] == 'G' || trackArr[j] == 'A' || trackArr[j] == 'B')  // ±×¿Ü C,D,E,F,G,A,B °ªµé
-		{
-
-			int pianoNum = octavePianoNumber(currentOctaveInt, int(trackArr[j])); //ÇöÀç ¿ÁÅ¸ºê¿¡¸Â´Â ¾ËÆÄºª¿¡ ÇØ´çÇÏ´Â °Ç¹İÀ» ±¸ÇØ pianoNum¿¡ ÀúÀåÇÑ´Ù.
-
-			if(currentTimeChar == '2') //charÀ» DB¿¡ ÀúÀåÇÏ±âÀ§ÇØ int·Î º¯È¯
-			{
-				currentTimeInt = 2;
-			}
-				
-			else if(currentTimeChar == '4')
-			{
-				currentTimeInt = 4;
-			}
-				
-			else if(currentTimeChar == '8')
-			{
-				currentTimeInt = 8;
-			}
-				
-//			else if(currentTimeChar == '16')
-//			{
-//				currentTimeInt = 16;
-//			}
-			
-			cout << "find " << trackArr[j] <<endl;
-			cout << "currentTime : " << currentTimeInt << endl;
-			cout << "pianoNum : " << pianoNum << endl;
-
-
-			//musicRecord[indexMusicRecord][0] = order; // À½Ç¥ ¼ø¼­ ÀúÀå
-			//if(currentTimeInt == 4)
-			
-			order ++;
-			
-
-			musicRecord[indexMusicRecord][3] = currentTimeInt; // ÇöÀç ¹ÚÀÚ ÀúÀå
-			musicRecord[indexMusicRecord][4] = pianoNum; // °Ç¹İ ¹øÈ£ ÀúÀå
-			
-			indexMusicRecord ++;
-
-			if(currentTimeInt == 2) //2ºĞÀ½Ç¥¸é index 2°³¾¿ Áõ°¡.
-			{
 			indexMusicRecord ++;
 			}
 		}
