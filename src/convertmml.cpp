@@ -6,8 +6,8 @@
 
 using namespace std;
 
-int calcDefatultPinaoNumber(int);// 디폴트 옥타브  건반번호 지정하는 함수
-int calcChangeOctave(int , int ); // 옥타브가 바뀔 때 건반 번호 지정하는 함수
+int calcDefatultPinaoNumber(char);// 디폴트 옥타브  건반번호 지정하는 함수
+int calcChangeOctave(int , char ); // 옥타브가 바뀔 때 건반 번호 지정하는 함수
 void highStoreRecord(char[]); //하나하나 저장한 배열을 입력받아 디비형식으로 저장하는 함수. - 높은음자리표용
 
 
