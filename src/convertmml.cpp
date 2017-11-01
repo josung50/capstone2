@@ -6,10 +6,9 @@
 
 using namespace std;
 
-int defatultPinaoNumber(int);// 디폴트 옥타브  건반번호 지정하는 함수
-int octavePianoNumber(int , int ); // 옥타브가 바뀔 때 건반 번호 지정하는 함수
+int calcDefatultPinaoNumber(int);// 디폴트 옥타브  건반번호 지정하는 함수
+int calcChangeOctave(int , int ); // 옥타브가 바뀔 때 건반 번호 지정하는 함수
 void highStoreRecord(char[]); //하나하나 저장한 배열을 입력받아 디비형식으로 저장하는 함수. - 높은음자리표용
-void lowStoreRecord(char[]); // 낮은음자리표용
 
 
 float musicRecord[1000][5];//DB형식으로 저장하기 위한 배열
@@ -77,26 +76,15 @@ int main(int argc, char *argv[]){
 	
 	/*
 	for(int i = 0; i < strlen(track1Arr); i++){
-
 		cout << "  note_order : "      <<musicRecord[i][0]<< 
-				"  right_note_time :  "<<musicRecord[i][1]<<
-				"  right_note_tune1 : "<<musicRecord[i][2]<<
-				"  right_note_tune2 : "<<musicRecord[i][3]<<
-				"  right_note_tune3 : "<<musicRecord[i][4]<<
-				"  right_note_tune4 : "<<musicRecord[i][5]<<
-				"  left_note_time   : "<<musicRecord[i][6]<<
-				"  left_note_tune1  : "<<musicRecord[i][7]<<
-				"  left_note_tune2  : "<<musicRecord[i][8]<<
-				"  left_note_tune3  : "<<musicRecord[i][9]<<
-				"  left_note_tune4  : "<<musicRecord[i][10]<<endl;
+				" note_time_right :  "<<musicRecord[i][1]<<
+				"  note_tune_right : "<<musicRecord[i][2]<<
+				"  note_time_left   : "<<musicRecord[i][3]<<
+				"  note_tune_left  : "<<musicRecord[i][4]<< endl;
 	}
 	*/
 
-	for(int i = 0; i < strlen(track1Arr); i++){
 
-                cout << " note_order : "<<  musicRecord[i][0]  << "  note_right_time : "<< musicRecord[i][1] << "  note_right_tune : "<<musicRecord[i][2]<<
-                        " note_left_time : "<<musicRecord[i][3]<<" note_left_tune : "<<musicRecord[i][4]<<endl;
-        }
 
 	inStream.close();
 
@@ -149,67 +137,66 @@ int main(int argc, char *argv[]){
 
 
 
-int defaultPianoNumber(int alphabet){ // 디폴트옥타브(4) 일때 C,D,E,F,G,H,A,B,C에 해당하는 피아노건반
+int calcDefaultPianoNumber(char alphabet){ // 디폴트옥타브(3) 일때 C,D,E,F,G,H,A,B,C에 해당하는 피아노건반
 
-	//알파벳을 아스키코드로
 		int pianoNumber = 0;
 
-		if(alphabet == 67) { // C 도
+		if(alphabet == 'C') { // C 도
 		
-			pianoNumber = 13;
+			pianoNumber = 1;
 		}
-		else if(alphabet == 68) {// D 레
+		else if(alphabet == 'D') {// D 레
 		
-			pianoNumber = 15;
+			pianoNumber = 3;
 		}
-		else if(alphabet == 69) {// E 미
+		else if(alphabet == 'E') {// E 미
 		
-			pianoNumber = 17;
+			pianoNumber = 5;
 		}
-		else if(alphabet == 70) {// F 파
+		else if(alphabet == 'F') {// F 파
 		
-			pianoNumber = 18;
+			pianoNumber = 6;
 		}
-		else if(alphabet == 71) {// G 솔
+		else if(alphabet == 'G') {// G 솔
 		
-			pianoNumber = 20;
+			pianoNumber = 8;
 		}
-		else if(alphabet == 65) {// A 라
+		else if(alphabet == 'A') {// A 라
 		
-			pianoNumber = 22;
+			pianoNumber = 10;
 		}
-		else if(alphabet == 66 ) {// B 시
+		else if(alphabet == 'B' ) {// B 시
 		
-			pianoNumber = 24;
+			pianoNumber = 12;
 		}
 
 		return pianoNumber;
 }
 	
 
-int octavePianoNumber(int currentOctave, int alphabet){ // 알파벳을 읽고 옥타브 값에 맞는 건반 번호를 리턴하는 함수
+int calcChangeOctave(int currentOctave, char alphabet){ // 알파벳을 읽고 옥타브 값에 맞는 건반 번호를 리턴하는 함수 , 디폴트옥타브를 3으로 결정
 
 	int pianoNumber2 = 0;
 	
-	if(currentOctave == 3) { // 옥타브가 3 일
+	if(currentOctave == 3) { // 옥타브가 3 일 때 ,  디폴트는 그대로 디폴트 피아노건반을 따라가고 한옥타브의 건반숫자는 12차이.
 	
-		pianoNumber2 = defaultPianoNumber(alphabet) - (12*1);
+		pianoNumber2 = calcDefaultPianoNumber(alphabet);
 	}
 	else if(currentOctave == 4 ) { // 옥타브 4 일 때
 	
-		pianoNumber2 = defaultPianoNumber(alphabet); // 디폴트는 그대로 디폴트 피아노건반을 따라가고 한옥타브의 건반숫자는 12차이.
+		pianoNumber2 = calcDefaultPianoNumber(alphabet) + (12*1); 
 	}
 	else if(currentOctave == 5) {// 옥타브 5 일 때
 	
-		pianoNumber2 = defaultPianoNumber(alphabet) + (12*1);
+		pianoNumber2 = calcDefaultPianoNumber(alphabet) + (12*2);
 	}
 	else if(currentOctave == 6) { // 옥타브 6 일 때
 	
-		pianoNumber2 = defaultPianoNumber(alphabet) + (12*2);
+		pianoNumber2 = calcDefaultPianoNumber(alphabet) + (12*3);
 	}
 	else if(currentOctave == 7) { // 옥타브 7 일 때
 	
-		pianoNumber2 = defaultPianoNumber(alphabet) + (12*3);
+		pianoNumber2 = calcDefaultPianoNumber(alphabet) + (12*4);
 	}
 
 	return pianoNumber2;
@@ -303,7 +290,7 @@ void highStoreRecord(char trackArr[]){
 		else if(trackArr[j] == 'C' || trackArr[j] == 'D' || trackArr[j] == 'E' || trackArr[j] == 'F' || trackArr[j] == 'G' || trackArr[j] == 'A' || trackArr[j] == 'B')  // 그외 C,D,E,F,G,A,B 값들
 		{
 
-			int pianoNum = octavePianoNumber(currentOctaveInt, int(trackArr[j])); //현재 옥타브에맞는 알파벳에 해당하는 건반을 구해 pianoNum에 저장한다.
+			int pianoNum = calcChangeOctave(currentOctaveInt, char(trackArr[j])); //현재 옥타브에맞는 알파벳에 해당하는 건반을 구해 pianoNum에 저장한다.
 
 			if(currentTimeChar == '2') {//char을 DB에 저장하기위해 int로 변환
 			
@@ -345,4 +332,3 @@ void highStoreRecord(char trackArr[]){
 		}
 	}
 }
-
