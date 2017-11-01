@@ -29,22 +29,18 @@ include '../header.php';
     <body>
     	<section style="height:420px;overflow:none;">
 
-
-	    	<div>
-	    		<div class="myclass" style="background-image: url(../image/musicbar.png);background-repeat:round;" width="900px" height="60px">
-	    			<span style="font-size: -webkit-xxx-large;" height="90px">젓가락 행진곡</span> 
-	    			<a style="float:right;" class="leftrightMargin"  href="./hard/chopsticks.php"><img src="../image/one.png" height="90px" style="z-index:2"></a>
-	    		</div>
-	    	</div>
-	    	
-	    	
+            <div>
+                <div class="myclass" style="background-image: url(../image/musicbar.png);background-repeat:round;" width="900px" height="60px">
+                    <span style="font-size: -webkit-xxx-large;" height="90px">이웃집 토토로</span>
+                    <a style="float:right;" class="leftrightMargin"  href="./normal/totoro.php"><img src="../image/one.png" height="90px" style="z-index:2"></a>
+                </div>
+            </div>
 	    	<div>
 	    		<div class="myclass" style="background-image: url(../image/musicbar.png);background-repeat:round;" width="900px" height="60px">
 	    			<span style="font-size: -webkit-xxx-large;" height="90px">해리포터</span> 
 	    			<a style="float:right;" class="leftrightMargin"  href="./normal/harrypotter.php"><img src="../image/one.png" height="90px" style="z-index:2"></a>
 	    		</div>
 	    	</div>
-	    	
 	    	<div>
 	    		<div class="myclass" style="background-image: url(../image/musicbar.png);background-repeat:round;" width="900px" height="60px">
 	    			<span style="font-size: -webkit-xxx-large;" height="90px">신데렐라</span> 
