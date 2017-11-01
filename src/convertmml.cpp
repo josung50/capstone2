@@ -6,9 +6,15 @@
 
 using namespace std;
 
-int calcDefatultPinaoNumber(char);// 디폴트 옥타브  건반번호 지정하는 함수
-int calcChangeOctave(int , char ); // 옥타브가 바뀔 때 건반 번호 지정하는 함수
+int calcDefatultPinaoNumber(int);// 디폴트 옥타브  건반번호 지정하는 함수
+int calcChangeOctave(int , int ); // 옥타브가 바뀔 때 건반 번호 지정하는 함수
 void highStoreRecord(char[]); //하나하나 저장한 배열을 입력받아 디비형식으로 저장하는 함수. - 높은음자리표용
+
+void connectDB(char,char,char); // MYSQL 연동 함수
+
+const char MAESTRO_IP = "35.161.154.86";
+const char DB_SERVER_ID = "root";
+const char DB_SERVER_PW = "dong8036";
 
 
 float musicRecord[1000][5];//DB형식으로 저장하기 위한 배열
@@ -87,6 +93,18 @@ int main(int argc, char *argv[]){
 
 
 	inStream.close();
+	
+	connectDB(char MAESTRO_IP, char DB_SERVER_ID, char DB_SERVER_PW)
+
+
+
+
+
+        return 0;
+}
+
+
+void connectDB(char MAESTRO_IP, char DB_SERVER_ID, char DB_SERVER_PW){
 
 	//MySQL 연동
 
@@ -103,8 +121,7 @@ int main(int argc, char *argv[]){
                 return -1;
         }
 
-        conn_ptr = mysql_real_connect(conn_ptr, "35.161.154.86", "root", "dong8036", argv[1], 0, NULL, 0
-);
+        conn_ptr = mysql_real_connect(conn_ptr, MAESTRO_IP, DB_SERVER_ID, DB_SERVER_PW, argv[1], 0, NULL, 0);
 
        //create table
 
@@ -130,11 +147,7 @@ int main(int argc, char *argv[]){
 
         mysql_close(conn_ptr);
 
-        return 0;
 }
-
-
-
 
 
 int calcDefaultPianoNumber(char alphabet){ // 디폴트옥타브(3) 일때 C,D,E,F,G,H,A,B,C에 해당하는 피아노건반
