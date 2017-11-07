@@ -10,7 +10,7 @@ def Main():
 	if args.file:
 		offset = 0
 		with open(args.file, 'rb') as infile:
-			with open(args.file+".txt", 'w') as outfile:
+			with open(args.file + ".txt", 'w') as outfile:
 				while True:
 					chunk = infile.read(16)
 					if len(chunk) == 0:
