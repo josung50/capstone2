@@ -3,7 +3,7 @@
 ?>
 
 <script>
-    popup=window.open("http://10.30.112.19/totoro.php",'player','top=500,left=800,width=10,height=10,status=0,toolbar=0,location=0,menubar=0,resizable=0,scrollbars=0');
+    popup=window.open("http://10.42.0.187/school.php",'player','top=500,left=800,width=10,height=10,status=0,toolbar=0,location=0,menubar=0,resizable=0,scrollbars=0');
 </script>
 
 <?php
@@ -24,46 +24,15 @@
         <title>totoro</title>
     </head>
 	
-	<body>
+	<body onload = "ScrollAuto();">
         <br/><br/>
-        <img src="../../sheet/TOTORO_1.png" id="mainImage">
-		
-		<script>
-			// slide-show
-			var myImage=document.getElementById("mainImage");
-            var theNumberOfSheet =  <?=SheetCount($_SESSION['play_song'])?>;
+        <script>
+            // slide-show
+            var theNumberOfSheet =  <?=CountSheet($_SESSION['play_song'])?>;
+            console.log("the Number of Sheet : " + theNumberOfSheet);
 
-            var imageArray = new Array();
-            for(var i = 0; i < theNumberOfSheet; i++)
-                imageArray[i] = "../../sheet/CHOPSTICKS_" + parseInt(i + 1) + ".png";
-
-            var imageIndex = 0;
-			
-			function changeImage() {
-				myImage.setAttribute("src", imageArray[imageIndex]);
-				imageIndex++;
-				if(imageIndex==imageArray.length)
-					clearInterval(refreshIntervalId);
-				else if(imageIndex == 0) {
-					clearInterval(refreshIntervalId);
-					refreshIntervalId = setInterval(changeImage, 18000); // 나머지 : 12.8초
-				}
-				else if(imageIndex == 1) {
-					clearInterval(refreshIntervalId);
-					refreshIntervalId = setInterval(changeImage, 11500); // 나머지 : 12.8초
-				}
-				else if(imageIndex >= 2) {
-					clearInterval(refreshIntervalId);
-					refreshIntervalId = setInterval(changeImage, 13000); // 나머지 : 12.8초
-				}
-			}
-
-			var refreshIntervalId = setInterval(changeImage,9550);		//한줄에 6.4초
-
-		</script>
-
-		<meta http-equiv='refresh' content='67;url=http://35.161.154.86/score/score_load.php'>
-
+            CreateImgTag(theNumberOfSheet, 'TOTORO');
+        </script>
 	</body>
 
 </html>
