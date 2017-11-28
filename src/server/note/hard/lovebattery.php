@@ -1,9 +1,9 @@
 <?php
-    include_once ("../loadSheetFunction.php");
+    include_once ("../SheetFunction.php");
 ?>
 
 <script>
-    popup=window.open("http://10.30.112.19/lovebattery.php",'player','top=500,left=800,width=10,height=10,status=0,toolbar=0,location=0,menubar=0,resizable=0,scrollbars=0');
+    popup=window.open("http://10.42.0.187/school.php",'player','top=500,left=800,width=10,height=10,status=0,toolbar=0,location=0,menubar=0,resizable=0,scrollbars=0');
 </script>
 
 <?php
@@ -22,47 +22,23 @@
 ?>
 
 <html>
+
     <head>
         <title>loverbattery</title>
     </head>
 
-    <body>
+    <body onload = "ScrollAuto();">
         <br/><br/>
 
         <!-- php 현재 경로 : /var/www/html/sheet -->
         <!-- html 의 경로는 그대로 /var/www/html/note/hard -->
-
-        <img src="../../sheet/LOVERBATTERY_1.png" id="mainImage">
-
         <script>
             // slide-show
-            var myImage = document.getElementById("mainImage");
-            var theNumberOfSheet =  <?=SheetCount($_SESSION['play_song'])?>;
+            var theNumberOfSheet =  <?=CountSheet($_SESSION['play_song'])?>;
+            console.log("the Number of Sheet : " + theNumberOfSheet);
 
-            var imageArray = new Array();
-            for(var i = 0; i < theNumberOfSheet; i++)
-                imageArray[i] = "../../sheet/LOVERBATTERY_" + parseInt(i + 1) + ".png";
-                //var imageArray=["../note_images/lovebattery2.png",
-                //"../note_images/lovebattery3.png" ];
-
-            var imageIndex=0;
-
-            function ChangeImage() {
-                myImage.setAttribute("src", imageArray[imageIndex]);
-                imageIndex++;
-                if(imageIndex == imageArray.length) {
-                    clearInterval(refreshIntervalId);
-                }
-            }
-            var refreshIntervalId = setInterval(ChangeImage, 5000);	// 첫 줄 9초
-
+            CreateImgTag(theNumberOfSheet, 'LOVERBATTERY');
         </script>
-
-        <a href="http://10.30.112.19/end.php">
-            <img src='/image/home.png'>
-        </a>
-        <meta http-equiv='refresh' content='33;url=http://35.161.154.86/score/score_load.php'>
-
     </body>
 </html>
 
