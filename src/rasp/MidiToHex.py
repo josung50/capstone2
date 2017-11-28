@@ -16,21 +16,16 @@ def Main():
 					if len(chunk) == 0:
 						break
 					
-					text = str(chunk)
-					text = ''.join([i if ord(i) < 128 and ord(i) > 32 \
-							else '.' for i in text])
-
-					output = "{:#08x}".format(offset) + ": "
 					output += " ".join("{:02X}".format(ord(c)) \
 							for c in chunk[:8])
-					output += " | "
+					
 					output += " ".join("{:02X}".format(ord(c)) \
 							for c in chunk[8:])
 
 					if len(chunk) % 16 != 0:
-						output += "   "*(16-len(chunk)) + text
+						output += "   "*(16-len(chunk))
 					else:
-						output += " " + text
+						output += " "
 
 					if args.output:
 						print output
