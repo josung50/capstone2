@@ -232,7 +232,7 @@ void connectDB(char MAESTRO_IP, char DB_SERVER_ID, char DB_SERVER_PW){
 
 
 
-                sprintf(insertbuffer,"INSERT INTO SCORE(user,song,score) VALUES(%c,%c,%f)",argv[3],argv[4],scoreResult);    // argv[3]:user ID argv[4]:song name
+                sprintf(insertbuffer,"INSERT INTO SCORE(user,song,score) VALUES(%s,%s,%f)",argv[3],argv[4],scoreResult);    // argv[3]:user ID argv[4]:song name
         
 		mysql_query(conn_ptr,insertbuffer);
 
