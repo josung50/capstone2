@@ -68,7 +68,7 @@ int main(int argc, char *argv[]){
 	deque <string> Played;
 
 	int originalNoteOn, playedNoteOn, scoreCount = 0;
-	int score;
+	int scoreResult;
 
 	inStream.open(argv[1]);
 	onStream.open(argv[2]);
