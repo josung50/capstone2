@@ -60,6 +60,7 @@ int main(int argc, char *argv[]){
 	deque <string> Played;
 
 	int originalNoteOn, playedNoteOn, scoreCount = 0;
+	int score;
 
 	inStream.open(argv[1]);
 	onStream.open(argv[2]);
@@ -129,8 +130,8 @@ int main(int argc, char *argv[]){
 				removedPlay.pop_front();
 		}
 	}
-
-	cout << "score is " << int(scoreCount/removedNote.size()*100) << endl;
+	score = int(scoreCount/removedNote.size()*100);
+	cout << "score is " << score << endl;
 
 	inStream.close();
 	onStream.close();
