@@ -7,7 +7,15 @@
 #include <string>
 #include <deque>
 
+#include "/usr/include/mysql/mysql.h"
+
 using namespace std;
+
+void connectDB(char,char,char); // MYSQL 연동 함수
+
+const char MAESTRO_IP = "35.161.154.86";
+const char DB_SERVER_ID = "root";
+const char DB_SERVER_PW = "dong8036";
 
 // original, played note
 deque <string> originalNote;
@@ -60,6 +68,7 @@ int main(int argc, char *argv[]){
 	deque <string> Played;
 
 	int originalNoteOn, playedNoteOn, scoreCount = 0;
+	int score;
 
 	inStream.open(argv[1]);
 	onStream.open(argv[2]);
@@ -129,11 +138,15 @@ int main(int argc, char *argv[]){
 				removedPlay.pop_front();
 		}
 	}
-
-	cout << "score is " << int(scoreCount/removedNote.size()*100) << endl;
+	scoreResult = int(scoreCount/removedNote.size()*100);
+	cout << "score is " << scoreResult << endl;
 
 	inStream.close();
 	onStream.close();
+
+	connectDB(char MAESTRO_IP, char DB_SERVER_ID, char DB_SERVER_PW);
+
+
 }
 
 void SplitNote()
@@ -187,4 +200,43 @@ int TwoToTen(string stringTwo)
 	}
 
 	return result;
+}
+
+
+
+void connectDB(char MAESTRO_IP, char DB_SERVER_ID, char DB_SERVER_PW){
+
+	//MySQL 연동
+
+        MYSQL *conn_ptr;
+        MYSQL_RES *sql_result;
+        MYSQL_ROW sql_row;
+
+
+        conn_ptr = mysql_init(NULL);
+
+        if(!conn_ptr){
+
+                fprintf(stderr, "mysql_init failed\n");
+                return -1;
+        }
+
+        conn_ptr = mysql_real_connect(conn_ptr, MAESTRO_IP, DB_SERVER_ID, DB_SERVER_PW, score, 0, NULL, 0);
+
+
+        //insert query
+
+        
+        char insertbuffer[256];
+
+
+
+
+                sprintf(insertbuffer,"INSERT INTO SCORE(user,song,score) VALUES(%f,%f,%f)",argv[3],argv[4],scoreResult);    // argv[3]:user ID argv[4]:song name
+        
+		mysql_query(conn_ptr,insertbuffer);
+
+
+        mysql_close(conn_ptr);
+
 }
