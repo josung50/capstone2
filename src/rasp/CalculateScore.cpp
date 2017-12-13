@@ -5,17 +5,12 @@
 #include <boost/algorithm/string.hpp>
 #include <cstdlib>
 #include <string>
+#include <cstring>
 #include <deque>
-
 #include "/usr/include/mysql/mysql.h"
 
+
 using namespace std;
-
-void connectDB(char,char,char); // MYSQL 연동 함수
-
-const char MAESTRO_IP = "35.161.154.86";
-const char DB_SERVER_ID = "root";
-const char DB_SERVER_PW = "dong8036";
 
 // original, played note
 deque <string> originalNote;
@@ -47,6 +42,9 @@ void RemovedRepeat(deque<int> &Splited, deque<int> &Removed);
 
 const unsigned g_unMaxBits = 32;
 
+//마지막 결과값 변수
+int resultScore = 0;
+
 string Hex2Bin(const string& s)
 {
 	stringstream ss;
@@ -63,6 +61,11 @@ string Hex2Bin(const string& s)
 
 int main(int argc, char *argv[]){
 
+	//argv[1] 원곡 미디 텍스트파일 ,ex) cinderella_origin.mid.txt
+	//argv[2] 연주한 미디 텍스트파일, ex)  cinderella.mid.txt
+	//argv[3] DB명 , ex) maestro_normal
+	//argv[4] 홈페이지 user id , ex)dongdongdong
+	//argv[5] 곡명(테이블명) ex) CINDERELLA
 	ifstream inStream;
 	ifstream onStream;
 
@@ -71,9 +74,7 @@ int main(int argc, char *argv[]){
 
 	inStream.open(argv[1]);
 	onStream.open(argv[2]);
-	
-	int scoreResult = 0;
-	
+
 	if(inStream.fail()){
 		cerr << "Input file in  open failed.\n";
 		exit(1);
@@ -110,59 +111,120 @@ int main(int argc, char *argv[]){
 				removedPlay.pop_front();
 		}
 	}
-	scoreResult = int(scoreCount/removedNote.size()*100);
-	cout << "score is " << scoreResult << endl;
 
-	inStream.close();
-	onStream.close();
+	//cout << "score is " << int(scoreCount/removedNote.size()*100) << endl;
 
-	connectDB(char MAESTRO_IP, char DB_SERVER_ID, char DB_SERVER_PW);
+	resultScore = int(scoreCount/removedNote.size()*100);
+	cout << "score is " << resultScore << endl;
+	cout << "argv[3] user name : " << argv[3] << endl;
+	cout << "argv[4] 곡명(테이블명) : " << argv[4] << endl;
+	
+
+		/////////////////////////////MySQL 연동///////////////////////////////////////////////////////
+
+  //      MYSQL *conn_ptr;
+
+		MYSQL *connection = NULL,conn;
+
+        MYSQL_RES *sql_result;
+        MYSQL_ROW sql_row;
+
+		int query_stat;
+
+       // conn_ptr = mysql_init(NULL);
+		mysql_init(&conn);
+
+		/*
+        if(!conn_ptr)
+        {
+            fprintf(stderr, "mysql_init failed\n");
+                return -1;
+        }else{
+			fprintf(stderr, "mysql_init OK\n");
+		}
+		*/
+
+        connection = mysql_real_connect(&conn, "35.161.154.86", "root", "dong8036", "score", 0, NULL, 0);
+
+		if(connection == NULL){
+			fprintf(stderr, "DB접속실패\n");
+			return 1;
+		}
+
+
+        //insert query
+
+        char insertbuffer[256];
+	
+		
+
+
+        //sprintf(insertbuffer,"INSERT INTO SCORE(user, song, score) VALUES" "('%s','%s',%d)"),argv[3],argv[4],resultScore);
+		//sprintf( szQuery, "INSERT INTO sell(name,price) VALUES('%d''%s')",name,price);
+		sprintf(insertbuffer,"INSERT INTO SCORE(user, song, score) VALUES('%s','%s','%d')",argv[3],argv[4],resultScore);
+        
+		query_stat = mysql_query(connection, insertbuffer);
+		if(query_stat != 0)
+		{
+			fprintf(stderr, "쿼리에러 : %s",mysql_error(&conn));
+			return 1;
+		}
+
+
+
+
+        mysql_close(connection);
+	
+		inStream.close();
+		onStream.close();
+
 
 
 }
 
 void FindNoteOn(deque<string> &NoteOn, deque<string> &NoteList, int NumNoteOn){
 	for (int i = 0; i < NoteOn.size(); i++){
-		if(noteOn.compare(NoteOn[i].substr(0,4)) == 0){
-			NumNoteOn = i;
-			break;
-		}
-	}
-	
+                if(noteOn.compare(NoteOn[i].substr(0,4)) == 0){
+                        NumNoteOn = i;
+                        break;
+                }
+        }
+
 	for (int i = NumNoteOn; i < NoteOn.size()-6; i+=3){
-		if((Judge.compare(NoteOn[i].substr(0,4)) == 0) || ((noteOn.compare(NoteOn[i].substr(0,4)) == 0) && (i != NumNoteOn))){
-			NoteList.push_back(NoteOn[i+2]);
-			i++;
-		}
-		else
-			NoteList.push_back(NoteOn[i+1]);
-	}
+                if((Judge.compare(NoteOn[i].substr(0,4)) == 0) || ((noteOn.compare(NoteOn[i].substr(0,4)) == 0) && (i != NumNoteOn))){
+                        NoteList.push_back(NoteOn[i+2]);
+                        i++;
+                }
+                else
+                        NoteList.push_back(NoteOn[i+1]);
+        }
+
 }
 
 void RemovedRepeat(deque<int> &Splited, deque<int> &Removed){
-	// binary origin Note to decimal
+	// binary note to decimal
 	for (int i = 0; i < originalNote.size(); i++)
-		Splited.push_back(TwoToTen(originalNote[i]));
-	
+                Splited.push_back(TwoToTen(originalNote[i]));
+
 	// remove repeated note
 	for (int i = 0; i < Splited.size(); i++){
-		if(!onCheck[Splited[i]]){
-			onCheck[Splited[i]] = true;
-			Removed.push_back(Splited[i]);
-		}
-		else
-			onCheck[Splited[i]] = false;
-	}
+                if(!onCheck[Splited[i]]){
+                        onCheck[Splited[i]] = true;
+                        Removed.push_back(Splited[i]);
+                }
+                else
+                        onCheck[Splited[i]] = false;
+        }
 }
-	
+
 void SplitNote()
 {
-	RemovedRepeat(noteSplited, removedNote);	
+	RemovedRepeat(noteSplited, removedNote);
 
 	// init onCheck
 	for (int i = 0; i < 78; i++)
 		onCheck[i] = false;
-	
+
 	RemovedRepeat(playSplited, removedPlay);
 }
 
@@ -180,41 +242,4 @@ int TwoToTen(string stringTwo)
 	}
 
 	return result;
-}
-
-
-
-void connectDB(char MAESTRO_IP, char DB_SERVER_ID, char DB_SERVER_PW){
-
-	//MySQL 연동
-
-        MYSQL *conn_ptr;
-        MYSQL_RES *sql_result;
-        MYSQL_ROW sql_row;
-
-
-        conn_ptr = mysql_init(NULL);
-
-        if(!conn_ptr){
-
-                fprintf(stderr, "mysql_init failed\n");
-                return -1;
-        }
-
-        conn_ptr = mysql_real_connect(conn_ptr, MAESTRO_IP, DB_SERVER_ID, DB_SERVER_PW, score, 0, NULL, 0);
-
-
-        //insert query
-
-        
-        char insertbuffer[256];
-
-
-                sprintf(insertbuffer,"INSERT INTO SCORE(user,song,score) VALUES(%s,%s,%f)",argv[3],argv[4],scoreResult);    // argv[3]:user ID argv[4]:song name
-        
-		mysql_query(conn_ptr,insertbuffer);
-
-
-        mysql_close(conn_ptr);
-
 }
