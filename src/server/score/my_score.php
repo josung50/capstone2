@@ -15,26 +15,15 @@
 	//echo $user_id;
 	
 	
-	// 점수 계산 코드 실행
-//	system('python score.py $user_id river');
-	
+
 	$conn = mysqli_connect("35.161.154.86","root","dong8036","score");
 	if (mysqli_connect_errno()){
  		echo "MySQL 연결 실패 : " . mysqli_connect_error();
 	}
 
 
-	//#2# 점수 계산
-	$randomNum = mt_rand(48,79);
-	
 
-	$play_song = $_SESSION['play_song'];
-	echo "$play_song";
-	//#2# 점수 db에 저장 
-	$insert_sql = "insert into SCORE(user, song, score) VALUE ('$user_id', '$play_song', '$randomNum')";
-	$result = mysqli_query($conn, $insert_sql);
-	
-	
+
 	// 가장 최근에 저장된 데이터를 화면에 출력	 
 	$select_sql = "select * from SCORE order by idx desc limit 1";
 	$result = mysqli_query($conn, $select_sql);
